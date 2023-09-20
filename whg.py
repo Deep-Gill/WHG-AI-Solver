@@ -1,5 +1,6 @@
 import pygame
 import time
+import os
 from board import BoardL30
 from agent import Agent
 from bullets import Bullet
@@ -8,15 +9,17 @@ from coins import Coin
 
 class WHG:
 
+    LEVEL = 30
     WIDTH = 900
     HEIGHT = 705
     FPS = 60
     __BAR_COLOUR = "black"
     __BAR_HEIGHT = 60
     __BACKGROUND_POSITION = pygame.Vector2(0, __BAR_HEIGHT)
-    __BACKGROUND_DIMENSIONS = pygame.Vector2(
-        WIDTH, HEIGHT - (2 * __BAR_HEIGHT))
-
+    __BACKGROUND_DIMENSIONS = pygame.Vector2(WIDTH, HEIGHT - (2 * __BAR_HEIGHT))
+    __FONT_NAME = "Corbel"
+    __FONT_SIZE = 45
+    __FONT_COLOUR = "white"
 
     def __init__(self):
         self.display = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
@@ -52,7 +55,9 @@ class WHG:
     def draw(self):
         self.display.fill(self.__BAR_COLOUR)
         self.draw_background()
+        self.draw_attributes()
         self.board.draw(self.display)
+        self.coins.draw(self.display)
         self.agent.draw(self.display)
         self.coins.draw(self.display)
         self.bullets.draw(self.display)
@@ -68,7 +73,7 @@ class WHG:
             if event.type == pygame.QUIT:
                 return True
         return False
-    
+        
 
     def game_over_screen(self):
         self.display.fill((0, 0, 0))
@@ -78,6 +83,22 @@ class WHG:
         self.display.blit(game_over_text, text_rect)  
         pygame.display.flip()  
 
+    def draw_text(self, text, font, colour, position):
+        textImg = font.render(text, True, colour)
+        self.display.blit(textImg, position)
+    
+    def draw_attributes(self):
+        font = pygame.font.SysFont(self.__FONT_NAME, self.__FONT_SIZE)
+        failsText = f'FAILS: {self.agent.fails}'
+        coinsText = f'COINS: {self.agent.coinsCaught}/{Coin.TOTAL}'
+        levelText = f'LEVEL: {self.LEVEL}'
+        self.draw_text(levelText, font, self.__FONT_COLOUR, (10, 15))
+        self.draw_text(coinsText, font, self.__FONT_COLOUR, (350, 15))
+        self.draw_text(failsText, font, self.__FONT_COLOUR, (770, 15))
+        
+    def draw_buttons(self):
+        pass
+        
 
 if __name__ == '__main__':
     whg = WHG()

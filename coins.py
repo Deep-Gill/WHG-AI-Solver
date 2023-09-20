@@ -10,6 +10,7 @@ class Coin(pygame.sprite.Sprite):
     Level 30 has four coin blocks: Top Left (TL), Top Right (TR), Bottom Right (BR), Board Center (C).
     We implement, explicity, the coin positions for each block and append them onto coin map for Level 30.
     '''
+    TOTAL = 46
     # Coin Spacing
     COIN_SP = 22.5
     
@@ -80,8 +81,4 @@ class Coin(pygame.sprite.Sprite):
             coin = cls(pos[0], pos[1])
             coins.add(coin)
         return coins       
-        
-    
-
-        
-
+        return coins       
