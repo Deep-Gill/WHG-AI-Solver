@@ -71,14 +71,9 @@ class Coin(pygame.sprite.Sprite):
         self.rect.center = (pos_x, pos_y)
         self.mask = pygame.mask.from_surface(self.image)
 
-
-    def update(self):
-        pass
-
-    def create_coins(cls, positions = COIN_MAP_L30):
+    def create_coins(self, positions = COIN_MAP_L30):
         coins = pygame.sprite.Group()
         for pos in positions:
-            coin = cls(pos[0], pos[1])
+            coin = self(pos[0], pos[1])
             coins.add(coin)
-        return coins       
-        return coins       
+        return coins
