@@ -17,6 +17,7 @@ class BoardL30(Board):
     POSITION = pygame.Vector2(45, 105)
     GOAL_DIMENSIONS = pygame.Vector2(2 * SQUARE_SIZE, 2 * SQUARE_SIZE)
     GOAL_POSITION = pygame.Vector2(45, 510)
+    GOAL_POSITION2 = pygame.Vector2(90, 555)
     BACKGROUND_COLOUR = "salmon"
     OUTLINE_COLOUR = "black"
     OUTLINE_DIMENSIONS = pygame.Vector2((18 * SQUARE_SIZE) + 10, (11 * SQUARE_SIZE) + 10) # MAY NEED TO KEEP AS 9 instead of 11
@@ -32,7 +33,7 @@ class BoardL30(Board):
         self.outlineRect = self.outlineImage.get_rect(topleft=self.OUTLINE_POSITION)
         goalMaskImage = pygame.Surface(self.GOAL_DIMENSIONS, pygame.SRCALPHA)
         self.goalMask = pygame.mask.from_surface(goalMaskImage)
-        self.goalRect = goalMaskImage.get_rect(topleft=self.GOAL_POSITION)
+        self.goalRect = goalMaskImage.get_rect(center=self.GOAL_POSITION2)
 
     def draw(self, display):
         self.draw_outline(display)
@@ -47,12 +48,5 @@ class BoardL30(Board):
         overlapBits = self.mask.overlap_area(objectMask, (offsetX, offsetY))
         return overlapBits == objectMaskBits
     
-    def is_inside_goal(self, objectMask, objectRect, objectMaskBits):
-        offsetX = objectRect.x - self.goalRect.x
-        offsetY = objectRect.y - self.goalRect.y
-        overlapBits = self.goalMask.overlap_area(objectMask, (offsetX, offsetY))
-        return overlapBits == objectMaskBits
-
-
-
-
+    def is_inside_goal(self, objectRect):
+        return self.goalRect.contains(objectRect)

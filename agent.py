@@ -3,7 +3,7 @@ import pygame
 
 class Agent(pygame.sprite.Sprite):
 
-    __INITIAL_POSITION = pygame.Vector2(90, 555)
+    INITIAL_POSITION = pygame.Vector2(90, 555)
     __DIMENSIONS = pygame.Vector2(30, 30)
     __SPEED = 300
     __COLOUR = "red2"
@@ -12,9 +12,9 @@ class Agent(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface(self.__DIMENSIONS, pygame.SRCALPHA)
         self.image.fill(self.__COLOUR)
-        self.rect = self.image.get_rect(center=self.__INITIAL_POSITION)
+        self.rect = self.image.get_rect(center=self.INITIAL_POSITION)
         self.mask = pygame.mask.from_surface(self.image)
-        self.__maskBits = self.mask.count()
+        self.maskBits = self.mask.count()
         self.coinsCaught = 0
         self.fails = 0
 
@@ -35,23 +35,23 @@ class Agent(pygame.sprite.Sprite):
     def move_top(self, board, dt):
         rect_copy = self.rect.copy()
         rect_copy.y = self.rect.y - (self.__SPEED * dt)
-        if board.is_inside(self.mask, rect_copy, self.__maskBits):
+        if board.is_inside(self.mask, rect_copy, self.maskBits):
             self.rect = rect_copy
 
     def move_bottom(self, board, dt):
         rect_copy = self.rect.copy()
         rect_copy.y = self.rect.y + (self.__SPEED * dt)
-        if board.is_inside(self.mask, rect_copy, self.__maskBits):
+        if board.is_inside(self.mask, rect_copy, self.maskBits):
             self.rect = rect_copy
 
     def move_left(self, board, dt):
         rect_copy = self.rect.copy()
         rect_copy.x = self.rect.x - (self.__SPEED * dt)
-        if board.is_inside(self.mask, rect_copy, self.__maskBits):
+        if board.is_inside(self.mask, rect_copy, self.maskBits):
             self.rect = rect_copy
 
     def move_right(self, board, dt):
         rect_copy = self.rect.copy()
         rect_copy.x = self.rect.x + (self.__SPEED * dt)
-        if board.is_inside(self.mask, rect_copy, self.__maskBits):
+        if board.is_inside(self.mask, rect_copy, self.maskBits):
             self.rect = rect_copy
