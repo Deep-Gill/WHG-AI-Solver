@@ -1,5 +1,5 @@
 import pygame
-
+import random
 
 class Agent(pygame.sprite.Sprite):
 
@@ -21,7 +21,7 @@ class Agent(pygame.sprite.Sprite):
     def draw(self, screen):
         screen.blit(self.image, self.rect)
 
-    def user_move(self, board, dt):
+    def move(self, board, dt):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_w] or keys[pygame.K_UP]:
             self.move_top(board, dt)
@@ -55,3 +55,7 @@ class Agent(pygame.sprite.Sprite):
         rect_copy.x = self.rect.x + (self.__SPEED * dt)
         if board.is_inside(self.mask, rect_copy, self.maskBits):
             self.rect = rect_copy
+            
+    def move_pos(self, x, y):
+        self.rect.x = x
+        self.rect.y = y
