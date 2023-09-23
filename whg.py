@@ -12,10 +12,10 @@ class WHG:
     WIDTH = 900
     HEIGHT = 705
     FPS = 60
-    __BAR_COLOUR = "black"
-    __BAR_HEIGHT = 60
-    __BACKGROUND_POSITION = pygame.Vector2(0, __BAR_HEIGHT)
-    __BACKGROUND_DIMENSIONS = pygame.Vector2(WIDTH, HEIGHT - (2 * __BAR_HEIGHT))
+    BAR_COLOUR = "black"
+    BAR_HEIGHT = 60
+    BACKGROUND_POSITION = pygame.Vector2(0, BAR_HEIGHT)
+    BACKGROUND_DIMENSIONS = pygame.Vector2(WIDTH, HEIGHT - (2 * BAR_HEIGHT))
     __FONT_NAME = "Corbel"
     __FONT_SIZE = 45
     __FONT_COLOUR = "white"
@@ -25,19 +25,20 @@ class WHG:
         self.clock = pygame.time.Clock()
         self.dt = 0
         self.board = BoardL30()
-        self.agent = Agent()
         self.bullets = Bullet.create_bullets(Bullet)
-        self.coins = Coin.create_coins(Coin)
 
     def run(self):
+        self.agent = Agent()
+        self.coins = Coin.create_coins(Coin)
         pygame.init()
         running = True
         while running:
             running = not self.did_user_quit()
             if self.is_game_completed(): break
-            self.agent.user_move(self.board, self.dt)
+            self.agent.move(self.board, self.dt)
             self.draw()
             self.handle_collisions()
+            self.bullets.update()
             pygame.display.flip()
             self.dt = self.clock.tick(self.FPS) / 1000
         pygame.quit()
@@ -47,8 +48,7 @@ class WHG:
         self.bullets.remove()
         self.bullets = Bullet.create_bullets(Bullet)
         self.coins = Coin.create_coins(Coin)
-        self.agent.rect.x = self.agent.INITIAL_POSITION.x
-        self.agent.rect.y = self.agent.INITIAL_POSITION.y
+        self.agent.move_pos(self.agent.INITIAL_POSITION.x, self.agent.INITIAL_POSITION.y)
         self.agent.coinsCaught = 0
         
         
@@ -70,19 +70,18 @@ class WHG:
 
 
     def draw(self):
-        self.display.fill(self.__BAR_COLOUR)
+        self.display.fill(self.BAR_COLOUR)
         self.draw_background()
         self.draw_attributes()
         self.board.draw(self.display)
         self.agent.draw(self.display)
         self.coins.draw(self.display)
         self.bullets.draw(self.display)
-        self.bullets.update()
 
 
     def draw_background(self):
         pygame.draw.rect(self.display, self.board.BACKGROUND_COLOUR,
-                         pygame.Rect(self.__BACKGROUND_POSITION, self.__BACKGROUND_DIMENSIONS))
+                         pygame.Rect(self.BACKGROUND_POSITION, self.BACKGROUND_DIMENSIONS))
 
     def did_user_quit(self):
         for event in pygame.event.get():
