@@ -16,9 +16,9 @@ class WHG:
     BAR_HEIGHT = 60
     BACKGROUND_POSITION = pygame.Vector2(0, BAR_HEIGHT)
     BACKGROUND_DIMENSIONS = pygame.Vector2(WIDTH, HEIGHT - (2 * BAR_HEIGHT))
-    __FONT_NAME = "Corbel"
-    __FONT_SIZE = 45
-    __FONT_COLOUR = "white"
+    FONT_NAME = "Corbel"
+    FONT_SIZE = 45
+    FONT_COLOUR = "white"
 
     def __init__(self):
         self.display = pygame.display.set_mode((self.WIDTH, self.HEIGHT))
@@ -44,8 +44,8 @@ class WHG:
         pygame.quit()
         
     def restart_game(self):
-        self.coins.remove()
-        self.bullets.remove()
+        self.coins.empty()
+        self.bullets.empty()
         self.bullets = Bullet.create_bullets(Bullet)
         self.coins = Coin.create_coins(Coin)
         self.agent.move_pos(self.agent.INITIAL_POSITION.x, self.agent.INITIAL_POSITION.y)
@@ -103,13 +103,13 @@ class WHG:
         self.display.blit(textImg, position)
     
     def draw_attributes(self):
-        font = pygame.font.SysFont(self.__FONT_NAME, self.__FONT_SIZE)
+        font = pygame.font.SysFont(self.FONT_NAME, self.FONT_SIZE)
         failsText = f'FAILS: {self.agent.fails}'
         coinsText = f'COINS: {self.agent.coinsCaught}/{Coin.TOTAL}'
         levelText = f'LEVEL: {self.LEVEL}'
-        self.draw_text(levelText, font, self.__FONT_COLOUR, (10, 15))
-        self.draw_text(coinsText, font, self.__FONT_COLOUR, (350, 15))
-        self.draw_text(failsText, font, self.__FONT_COLOUR, (750, 15))
+        self.draw_text(levelText, font, self.FONT_COLOUR, (10, 15))
+        self.draw_text(coinsText, font, self.FONT_COLOUR, (350, 15))
+        self.draw_text(failsText, font, self.FONT_COLOUR, (750, 15))
         
     def draw_buttons(self):
         pass
